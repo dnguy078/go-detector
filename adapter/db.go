@@ -31,7 +31,7 @@ func (d *db) Close() error {
 	return d.conn.Close()
 }
 
-// LoadCSV loads a csv file into a table, sqllite3 package does not have feature to `Load` from file
+// LoadFromFile loads a sql file into sqllite3 package does not have feature to `Load` from file
 func (d *db) LoadFromFile(path string) error {
 	dot, err := dotsql.LoadFromFile(path)
 	if err != nil {
