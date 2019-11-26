@@ -31,9 +31,10 @@ docker run -p 3000:3000 secureworks
 
 ## API:
 ### Detect
-```
+```json
 
-Request: // 01/01/2018 @ 12:00am
+Request:
+TimeStamp: 01/01/2018 @ 12:00am
 curl -X POST \
   http://localhost:3000/detect \
   -H 'Content-Type: application/json' \
@@ -46,6 +47,9 @@ curl -X POST \
 
 Response:
 
+Preceding: 01/01/2018 @ 12:00am
+Subsequent: 01/02/2018 @ 12:00am (UTC)
+Speed is calculated by taking distance between locations in miles / diff in time in hours
 {
 	"currentGeo": {
 		"lat": ​39.1702​,
@@ -56,19 +60,19 @@ Response:
 	"travelFromCurrentGeoSuspicious": false,
 	"precedingIpAccess": {
 		"ip": "24.242.71.20"​,
-		"speed": 1341, 			// miles per hour
+		"speed": 1341,
 		"lat": ​30.3764​,
 		"lon": ​-97.7078​,
 		"radius": 5​​,
-		"timestamp": 1514764800 	// 01/01/2018 @ 12:00am
+		"timestamp": 1514764800
 	},
 	"subsequentIpAccess": {
 		"ip": "91.207.175.104"​,
-		"speed": 101, 				// miles per hour
+		"speed": 101,
 		"lat": ​34.0494​,
 		"lon": ​-118.2641​,
 		"radius": 2​00​,
-		"timestamp": 1514851200 	// 01/02/2018 @ 12:00am (UTC)
+		"timestamp": 1514851200
 	}
 }
 ```
