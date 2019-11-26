@@ -27,7 +27,7 @@ docker run -p 3000:3000 secureworks
 1. github.com/gchaincl/dotsql v1.0.0 (used to source .sql file)
 2. github.com/google/uuid v1.1.1 (used to test with random uuid)
 3. github.com/mattn/go-sqlite3 v1.13.0 (used for sqllite)
-4. github.com/oschwald/geoip2-golang v1.3 (used to mindmasterdb wrapper)
+4. github.com/oschwald/geoip2-golang v1.3 (used to maxmind geoip wrapper)
 
 ## API:
 ### Detect
