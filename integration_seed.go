@@ -1,6 +1,6 @@
 // +build integration
 
-package integration
+package main
 
 import (
 	"github.com/dnguy078/go-detector/models"

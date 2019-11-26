@@ -1,6 +1,6 @@
 // +build integration
 
-package integration
+package main
 
 import (
 	"bytes"
@@ -19,7 +19,7 @@ import (
 var httpClient = http.Client{}
 
 func TestIntegration(t *testing.T) {
-	s, err := daemon.New(":8081", ":memory:", "../schema/geo.db.sql", "../data/city_seed_data.mmdb")
+	s, err := daemon.New(":8081", ":memory:", "./schema/geo.db.sql", "./data/city_seed_data.mmdb")
 	if err != nil {
 		log.Fatal(err)
 	}
