@@ -2,8 +2,10 @@
 go-detector is an API built to detect possible compromised account credentials based on source IP addresses
 
 ## Running locally
+Github does not allow users to upload over 60mb files (zipped contains seed data for geoIP, must be ran once)
 To Run:
 ```
+unzip ./data/city_seed_data.mmdb.zip -d ./data
 go mod download
 go run main.go
 ```
@@ -24,12 +26,12 @@ docker run -p 3000:3000 secureworks
 ### Package dependencies
 1. github.com/gchaincl/dotsql v1.0.0 (used to source .sql file)
 2. github.com/google/uuid v1.1.1 (used to test with random uuid)
-4. github.com/mattn/go-sqlite3 v1.13.0 (used for sqllite)
-5. github.com/oschwald/geoip2-golang v1.3 (used to mindmasterdb wrapper)
+3. github.com/mattn/go-sqlite3 v1.13.0 (used for sqllite)
+4. github.com/oschwald/geoip2-golang v1.3 (used to mindmasterdb wrapper)
 
 ## API:
 ### Detect
-```json
+```
 
 Request: // 01/01/2018 @ 12:00am
 curl -X POST \
