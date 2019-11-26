@@ -1,0 +1,15 @@
+# github.com/gchaincl/dotsql v1.0.0
+github.com/gchaincl/dotsql
+# github.com/google/uuid v1.1.1
+github.com/google/uuid
+# github.com/mattn/go-sqlite3 v1.13.0
+github.com/mattn/go-sqlite3
+# github.com/oschwald/geoip2-golang v1.3.0
+github.com/oschwald/geoip2-golang
+# github.com/oschwald/maxminddb-golang v1.5.0
+github.com/oschwald/maxminddb-golang
+# github.com/umahmood/haversine v0.0.0-20151105152445-808ab04add26
+github.com/umahmood/haversine
+# golang.org/x/sys v0.0.0-20191120155948-bd437916bb0e
+golang.org/x/sys/unix
+golang.org/x/sys/windows

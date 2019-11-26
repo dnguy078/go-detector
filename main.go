@@ -6,8 +6,15 @@ import (
 	"github.com/dnguy078/go-detector/daemon"
 )
 
+const (
+	port         = ":3000"
+	dbPath       = "./geo.db"
+	dbSchemaPath = "./schema/geo.db.sql"
+	geoSeedPath  = "./data/city_seed_data.mmdb"
+)
+
 func main() {
-	s, err := daemon.New()
+	s, err := daemon.New(port, dbPath, dbSchemaPath, geoSeedPath)
 	if err != nil {
 		log.Fatal(err)
 	}

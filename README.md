@@ -5,29 +5,42 @@ go-detector is an API built to detect possible compromised account credentials b
 To Run:
 ```
 go mod download
-docker-compose build && docker-compose up
+go run main.go
 ```
 To Test:
 ```
-make test
+go test ./...
+```
+Integration Test:
+```
+go test ./... -tags=integration
+```
+Build and Run using docker:
+```
+docker build -t secureworks .
+docker run -p 3000:3000 secureworks
 ```
 
 ### Package dependencies
-1.
-2.
-3.
+1. github.com/gchaincl/dotsql v1.0.0 (used to source .sql file)
+2. github.com/google/uuid v1.1.1 (used to test with random uuid)
+4. github.com/mattn/go-sqlite3 v1.13.0 (used for sqllite)
+5. github.com/oschwald/geoip2-golang v1.3 (used to mindmasterdb wrapper)
 
 ## API:
 ### Detect
 ```json
 
-Request:
-{
-   "username":"bob",
-   "unix_timestamp":1514764800,
-   "event_uuid":"85ad929a-db03-4bf4-9541-8f728fa12e42",
-   "ip_address":"206.81.252.6"
-}
+Request: // 01/01/2018 @ 12:00am
+curl -X POST \
+  http://localhost:3000/detect \
+  -H 'Content-Type: application/json' \
+  -d '{
+        "username":  "test",
+		"unix_timestamp":  1574735184,
+		"event_uuid":  "testing",
+		"ip_address":  "107.77.66.81"
+    }'
 
 Response:
 
@@ -41,19 +54,23 @@ Response:
 	"travelFromCurrentGeoSuspicious": false,
 	"precedingIpAccess": {
 		"ip": "24.242.71.20"​,
-		"speed": 55,
+		"speed": 1341, 			// miles per hour
 		"lat": ​30.3764​,
 		"lon": ​-97.7078​,
 		"radius": 5​​,
-		"timestamp": 1514764800
+		"timestamp": 1514764800 	// 01/01/2018 @ 12:00am
 	},
 	"subsequentIpAccess": {
 		"ip": "91.207.175.104"​,
-		"speed": 27600,
+		"speed": 101, 				// miles per hour
 		"lat": ​34.0494​,
 		"lon": ​-118.2641​,
 		"radius": 2​00​,
-		"timestamp": 1514851200
+		"timestamp": 1514851200 	// 01/02/2018 @ 12:00am (UTC)
 	}
 }
 ```
+
+### Outstanding questions:
+1. Did not use the radius, unsure if we should be adding/subtracting to reach location before determing the distance. (speed is not accurate in specs in either case)
+2. Speed calculation was not documented in the specs, I set it to distance from two locations in miles / time difference between locations in hours.

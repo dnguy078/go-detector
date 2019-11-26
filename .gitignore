@@ -12,3 +12,6 @@
 *.out
 
 go-detector
+geo.db
+
+.DS_Store

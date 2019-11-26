@@ -8,33 +8,49 @@ import (
 )
 
 type DetectHandler struct {
-	Dispatcher Broker
+	DetectSvc DetectionService
 }
 
-type Broker interface {
-	Send(models.Loginmeta) error
+type DetectionService interface {
+	Suspicious(models.Request) (*models.Response, error)
 }
 
 func (rh *DetectHandler) Detect(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "method is not supported", http.StatusBadRequest)
+		http.Error(w, marshalError("method is not supported"), http.StatusBadRequest)
 		return
 	}
 
-	lm := models.Loginmeta{}
+	lm := models.Request{}
 	if err := json.NewDecoder(r.Body).Decode(&lm); err != nil {
-		http.Error(w, "error decoding request body", http.StatusBadRequest)
-		return
-	}
-	if lm.Username == "" {
-		http.Error(w, "requestID cannot not be empty", http.StatusBadRequest)
+		http.Error(w, marshalError("error decoding request body"), http.StatusBadRequest)
 		return
 	}
 
-	// if err := rh.Dispatcher.Send(*record); err != nil {
-	// 	http.Error(w, "unable to process message at this time", http.StatusInternalServerError)
-	// 	return
-	// }
+	resp, err := rh.DetectSvc.Suspicious(lm)
+	if err != nil {
+		http.Error(w, marshalError(err.Error()), http.StatusInternalServerError)
+		return
+	}
 
-	w.WriteHeader(http.StatusAccepted)
+	b, err := json.Marshal(resp)
+	if err != nil {
+		http.Error(w, marshalError(err.Error()), http.StatusBadRequest)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(b)
+}
+
+func marshalError(errString string) string {
+	type endpointError struct {
+		Message string `json:"error"`
+	}
+	e := &endpointError{Message: errString}
+	b, err := json.Marshal(e)
+	if err != nil {
+		return ""
+	}
+	return string(b)
 }
